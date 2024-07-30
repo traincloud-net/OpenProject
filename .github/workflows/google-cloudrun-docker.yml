@@ -34,9 +34,9 @@ jobs:
       - name: Push Container to Google Artifact Registry
         run: docker push "europe-docker.pkg.dev/traincloud/openproject/openproject:${{ github.sha }}"
 
-      - name: Deploy Container to Google Cloud Run
-        uses: google-github-actions/deploy-cloudrun@v2
-        with:
-          service: traincloud-openproject
-          region: europe-west4
-          image: "europe-docker.pkg.dev/traincloud/openproject/openproject:${{ github.sha }}"
+      # - name: Deploy Container to Google Cloud Run
+      #   uses: google-github-actions/deploy-cloudrun@v2
+      #   with:
+      #     service: traincloud-openproject
+      #     region: europe-west4
+      #     image: "europe-docker.pkg.dev/traincloud/openproject/openproject:${{ github.sha }}"
