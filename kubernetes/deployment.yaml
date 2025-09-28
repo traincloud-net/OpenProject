@@ -1,0 +1,59 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: openproject-deployment
+  namespace: default
+  labels:
+    app: openproject
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: openproject
+  template:
+    metadata:
+      labels:
+        app: openproject
+    spec:
+#      hostNetwork: true
+      nodeSelector:
+        node: openproject # Label in IONOS k8s node pool
+      containers:
+        - name: openproject
+          image: traincloud.cr.de-fra.ionos.com/openproject/openproject@sha256:57130c41a6f2c0113c6cb7c5d93d50a645cd1a268a5cb4afa53b9a41a33c0ddd
+          ports:
+            - containerPort: 10003
+          env:
+            - name: OPENPROJECT_HTTPS
+              value: false
+            - name: OPENPROJECT_FORCE__SSL
+              value: false
+            - name: OPENPROJECT_SECRET_KEY_BASE
+              valueFrom: 
+                secretKeyRef:
+                  name: openproject-credentials
+                  key: openproject_secret_key_base
+            - name: DATABASE_URL
+              valueFrom: 
+                secretKeyRef:
+                  name: openproject-credentials
+                  key: database_url
+          volumeMounts:
+            - name: openproject-assets
+              mountPath: /var/openproject/assets
+            - name: openproject-config
+              mountPath: /etc/openproject
+            - name: openproject-logs
+              mountPath: /var/log/supervisor
+      imagePullSecrets: 
+        - name: traincloud-registry-credentials
+      volumes:
+        - name: openproject-assets
+          persistentVolumeClaim:
+            claimName: storage-openproject-assets
+        - name: openproject-config
+          persistentVolumeClaim:
+            claimName: storage-openproject-config
+        - name: openproject-logs
+          persistentVolumeClaim:
+            claimName: storage-openproject-logs

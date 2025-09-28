@@ -1,8 +1,10 @@
-FROM openproject/openproject:14.3
+FROM openproject/openproject:16.4.1
 
-ENV OPENPROJECT_HTTPS=true
+ENV RAILS_ENV=production
 ENV OPENPROJECT_DEFAULT__LANGUAGE=en 
-ENV OPENPROJECT_HOST__NAME=openproject.traincloud.net
-ENV OPENPROJECT_MAIL__FROM=mail@traincloud.net
+ENV OPENPROJECT_HOST__NAME=openproject.traincloud.dev
+ENV OPENPROJECT_MAIL__FROM=mail@traincloud.dev
+ENV OPENPROJECT_CACHE_STORE=file_store
+ENV PORT=10003
 
-EXPOSE 8080
+EXPOSE 10003
