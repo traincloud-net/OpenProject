@@ -22,7 +22,7 @@ spec:
         - name: openproject
           image: traincloud.cr.de-fra.ionos.com/openproject/openproject@sha256:57130c41a6f2c0113c6cb7c5d93d50a645cd1a268a5cb4afa53b9a41a33c0ddd
           ports:
-            - containerPort: 10003
+            - containerPort: 10005
           env:
             - name: OPENPROJECT_HTTPS
               value: false
