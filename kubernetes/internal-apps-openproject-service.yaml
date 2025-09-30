@@ -1,7 +1,7 @@
 apiVersion: v1
 kind: Service
 metadata:
-  name: openproject-service
+  name: internal-apps-openproject-service
   namespace: default
   labels:
     app: openproject
@@ -11,6 +11,6 @@ spec:
     app: openproject
   ports:
     - protocol: TCP
-      targetPort: 10005  # Container-Port
-      port: 20005       # Cluster-intern
-      nodePort: 30005   # NodePort (30000–32767)
+      targetPort: 10003  # Container-Port
+      port: 20003      # Cluster-intern
+      nodePort: 30003   # NodePort (30000–32767)

@@ -1,7 +1,7 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: openproject-deployment
+  name: internal-apps-openproject-deployment
   namespace: default
   labels:
     app: openproject
@@ -15,45 +15,44 @@ spec:
       labels:
         app: openproject
     spec:
-#      hostNetwork: true
       nodeSelector:
-        node: openproject # Label in IONOS k8s node pool
+        deployment_node: openproject # Label in IONOS k8s node pool
       containers:
         - name: openproject
-          image: traincloud.cr.de-fra.ionos.com/openproject/openproject@sha256:57130c41a6f2c0113c6cb7c5d93d50a645cd1a268a5cb4afa53b9a41a33c0ddd
+          image: traincloud.cr.de-fra.ionos.com/openproject/openproject@sha256:a93739cab268432ca182d4eea3c440b876edcda8d952f61cefd49c15348e2340 
           ports:
-            - containerPort: 10005
+            - containerPort: 10003
           env:
             - name: OPENPROJECT_HTTPS
-              value: false
+              value: "true"
             - name: OPENPROJECT_FORCE__SSL
-              value: false
+              value: "true"
             - name: OPENPROJECT_SECRET_KEY_BASE
               valueFrom: 
                 secretKeyRef:
-                  name: openproject-credentials
+                  name: internal-apps-openproject-credentials
                   key: openproject_secret_key_base
             - name: DATABASE_URL
               valueFrom: 
                 secretKeyRef:
-                  name: openproject-credentials
+                  name: internal-apps-openproject-credentials
                   key: database_url
           volumeMounts:
-            - name: openproject-assets
+            - name: volume-assets
               mountPath: /var/openproject/assets
-            - name: openproject-config
+            - name: volume-config
               mountPath: /etc/openproject
-            - name: openproject-logs
+            - name: volume-logs
               mountPath: /var/log/supervisor
       imagePullSecrets: 
-        - name: traincloud-registry-credentials
+        - name: traincloud-container-registry-credentials
       volumes:
-        - name: openproject-assets
+        - name: volume-assets
           persistentVolumeClaim:
-            claimName: storage-openproject-assets
-        - name: openproject-config
+            claimName: internal-apps-openproject-storage-assets
+        - name: volume-config
           persistentVolumeClaim:
-            claimName: storage-openproject-config
-        - name: openproject-logs
+            claimName: internal-apps-openproject-storage-config
+        - name: volume-logs
           persistentVolumeClaim:
-            claimName: storage-openproject-logs
+            claimName: internal-apps-openproject-storage-logs
