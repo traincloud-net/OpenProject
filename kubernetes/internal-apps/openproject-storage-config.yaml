@@ -1,12 +1,12 @@
 apiVersion: v1
 kind: PersistentVolumeClaim
 metadata:
-  name: internal-apps-openproject-storage-assets
-  namespace: default
+  name: openproject-storage-config
+  namespace: internal-apps
 spec:
   accessModes:
     - ReadWriteOnce
   resources:
     requests:
-      storage: 100Gi
+      storage: 2Gi
   storageClassName: ionos-enterprise-ssd  # IONOS storage class

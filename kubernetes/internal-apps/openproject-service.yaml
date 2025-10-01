@@ -1,8 +1,8 @@
 apiVersion: v1
 kind: Service
 metadata:
-  name: internal-apps-openproject-service
-  namespace: default
+  name: openproject-service
+  namespace: internal-apps
   labels:
     app: openproject
 spec:

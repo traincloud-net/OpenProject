@@ -1,8 +1,8 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: internal-apps-openproject-deployment
-  namespace: default
+  name: openproject-deployment
+  namespace: internal-apps
   labels:
     app: openproject
 spec:
@@ -30,12 +30,12 @@ spec:
             - name: OPENPROJECT_SECRET_KEY_BASE
               valueFrom: 
                 secretKeyRef:
-                  name: internal-apps-openproject-credentials
+                  name: openproject-credentials
                   key: openproject_secret_key_base
             - name: DATABASE_URL
               valueFrom: 
                 secretKeyRef:
-                  name: internal-apps-openproject-credentials
+                  name: openproject-credentials
                   key: database_url
           volumeMounts:
             - name: volume-assets
@@ -49,10 +49,10 @@ spec:
       volumes:
         - name: volume-assets
           persistentVolumeClaim:
-            claimName: internal-apps-openproject-storage-assets
+            claimName: openproject-storage-assets
         - name: volume-config
           persistentVolumeClaim:
-            claimName: internal-apps-openproject-storage-config
+            claimName: openproject-storage-config
         - name: volume-logs
           persistentVolumeClaim:
-            claimName: internal-apps-openproject-storage-logs
+            claimName: openproject-storage-logs
